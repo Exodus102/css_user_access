@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:css_website_access/pages/reports/ncar_page_data_table.dart';
 import 'package:css_website_access/widgets/custom_dropdown.dart';
 import 'package:css_website_access/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class NcarPage extends StatefulWidget {
   const NcarPage({super.key});
@@ -11,12 +14,37 @@ class NcarPage extends StatefulWidget {
 }
 
 class _NcarPageState extends State<NcarPage> {
-  String? selectedValue;
   String? selectedDate;
   String? selectedQuarter;
+  bool isLoading = true;
 
-  final List<String> items = ["Academic Affairs"];
-  final List<String> date = ["2024"];
+  @override
+  void initState() {
+    super.initState();
+    fetchYears();
+  }
+
+  Future<void> fetchYears() async {
+    try {
+      final response = await http
+          .get(Uri.parse("http://192.168.100.46/database/date/get_year.php"));
+      if (response.statusCode == 200) {
+        List<dynamic> data = jsonDecode(response.body);
+        setState(() {
+          date = data.map((e) => e.toString()).toList();
+          date.sort();
+          if (date.isNotEmpty) {
+            selectedDate = date.first;
+          }
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      print("Error fetching years: $e");
+    }
+  }
+
+  List<String> date = [];
   final List<String> quarter = ["4th Quarter"];
   @override
   Widget build(BuildContext context) {
@@ -46,21 +74,6 @@ class _NcarPageState extends State<NcarPage> {
                 children: [
                   Row(
                     children: [
-                      SizedBox(
-                        width: parentwidth * 0.15,
-                        child: CustomDropdown(
-                          items: items,
-                          selectedValue: selectedValue,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedValue = value;
-                            });
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
                       SizedBox(
                         width: parentwidth * 0.1,
                         child: CustomDropdown(

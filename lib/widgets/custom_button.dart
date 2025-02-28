@@ -27,6 +27,7 @@ class CustomButton extends StatelessWidget {
       ),
       onPressed: onPressed,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
             svgPath,

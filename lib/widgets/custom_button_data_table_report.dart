@@ -3,15 +3,17 @@ import 'package:flutter_svg/svg.dart';
 
 class CustomButtonDataTableReport extends StatelessWidget {
   final Color backgroundColor;
+  final VoidCallback? onPressed;
   const CustomButtonDataTableReport({
     super.key,
     required this.backgroundColor,
+    this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
         foregroundColor: Color(0xFF064089),

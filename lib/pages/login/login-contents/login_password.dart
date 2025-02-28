@@ -45,7 +45,7 @@ class _LoginPasswordState extends State<LoginPassword> {
         final userData = await authService.fetchUserData(email);
         setState(() {
           if (userData != null) {
-            name = userData['name'];
+            name = userData['fname'];
             imageBase64 = userData['image'];
           } else {
             name = "User not found";

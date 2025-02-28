@@ -2,7 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class TermsOfServicesAndPrivacyPolicy extends StatelessWidget {
-  const TermsOfServicesAndPrivacyPolicy({super.key});
+  final VoidCallback? onTermsOfServicesTap;
+  const TermsOfServicesAndPrivacyPolicy(
+      {super.key, this.onTermsOfServicesTap});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +23,7 @@ class TermsOfServicesAndPrivacyPolicy extends StatelessWidget {
                 color: Color(0xFF064089),
                 fontWeight: FontWeight.bold,
               ),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  debugPrint("Terms of Services clicked");
-                },
+              recognizer: TapGestureRecognizer()..onTap = onTermsOfServicesTap,
             ),
             const TextSpan(
               text: " and ",

@@ -140,6 +140,7 @@ class NcarPageDataTable extends StatelessWidget {
                               DataCell(
                                 Center(
                                   child: CustomButtonDataTableReport(
+                                    onPressed: (){},
                                     backgroundColor: rowColor,
                                   ),
                                 ),

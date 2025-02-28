@@ -19,7 +19,7 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 45,
+      height: 40,
       child: ListTile(
         leading: SvgPicture.asset(
           svgPath, // Use the dynamic SVG path

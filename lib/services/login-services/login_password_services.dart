@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class LoginPasswordServices {
-  static const url = "http://192.168.1.53/database/login/login_password.php";
+  static const url = "http://192.168.100.46/database/login/login_password.php";
 
   Future<Map<String, dynamic>?> fetchUserData(String email) async {
     try {
@@ -15,7 +15,7 @@ class LoginPasswordServices {
         final data = json.decode(response.body);
         if (data['status'] == 'found') {
           return {
-            'name': data['name'],
+            'fname': data['fname'],
             'image': data['image'],
           };
         } else {

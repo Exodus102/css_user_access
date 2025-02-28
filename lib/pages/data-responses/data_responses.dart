@@ -30,9 +30,15 @@ class _DataResponsesState extends State<DataResponses> {
     super.initState();
     FetchDataDivisionService(updateDivisions: (List<String> divisions) {
       setState(() {
-        divisionItems = divisions;
+        divisionItems = ["Show All", ...divisions];
       });
     }).fetchDivisions();
+
+    FetchDataOfficeService(updateOffices: (List<String> offices) {
+      setState(() {
+        collegeItems = ["Show All", ...offices];
+      });
+    }).fetchOffices();
   }
 
   @override
@@ -70,7 +76,8 @@ class _DataResponsesState extends State<DataResponses> {
                             selectedValue: selectedDivision,
                             onChanged: (value) {
                               setState(() {
-                                selectedDivision = value;
+                                selectedDivision =
+                                    value == "Show All" ? null : value;
                               });
                             },
                           ),
@@ -83,7 +90,8 @@ class _DataResponsesState extends State<DataResponses> {
                             selectedValue: selectedCollege,
                             onChanged: (value) {
                               setState(() {
-                                selectedCollege = value;
+                                selectedCollege =
+                                    value == "Show All" ? null : value;
                               });
                             },
                           ),
@@ -134,7 +142,10 @@ class _DataResponsesState extends State<DataResponses> {
                     SizedBox(
                       height: remainingHeight,
                       width: parentWidth,
-                      child: DataTableWidget(),
+                      child: DataTableWidget(
+                        selectedDivision: selectedDivision,
+                        selectedCollege: selectedCollege,
+                      ),
                     ),
                   ],
                 ),

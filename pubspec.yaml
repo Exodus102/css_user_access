@@ -37,6 +37,15 @@ dependencies:
   flutter_svg: ^2.0.16
   fl_chart: ^0.70.1
   http: ^1.3.0
+  dotted_border: ^2.0.0
+  syncfusion_flutter_pdfviewer: ^28.2.4
+  html: ^0.15.0
+  device_info_plus: ^11.0.0
+  syncfusion_flutter_pdf: ^28.2.4
+  path_provider: ^2.1.5
+  pdf: ^3.7.0
+  qr_flutter: ^4.1.0
+  screenshot: ^1.2.3
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +72,7 @@ flutter:
   assets:
     - assets/svg/
     - assets/images/
+    - assets/pdf/reports/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -88,6 +98,7 @@ flutter:
         - asset: assets/fonts/sf-pro-display/SFPRODISPLAYSEMIBOLDITALIC.OTF
         - asset: assets/fonts/sf-pro-display/SFPRODISPLAYTHINITALIC.OTF
         - asset: assets/fonts/sf-pro-display/SFPRODISPLAYULTRALIGHTITALIC.OTF
+        - asset: assets/fonts/bookman-old-style/BookmanOldStyleBold.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

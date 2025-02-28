@@ -3,13 +3,20 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class DataTableWidget extends StatefulWidget {
-  const DataTableWidget({super.key});
+  final String? selectedDivision;
+  final String? selectedCollege;
+
+  const DataTableWidget({
+    super.key,
+    this.selectedDivision,
+    this.selectedCollege,
+  });
 
   @override
-  _DataTableWidgetState createState() => _DataTableWidgetState();
+  DataTableWidgetState createState() => DataTableWidgetState();
 }
 
-class _DataTableWidgetState extends State<DataTableWidget> {
+class DataTableWidgetState extends State<DataTableWidget> {
   List<String> columns = [];
   List<Map<String, dynamic>> data = [];
   bool isLoading = true;
@@ -23,7 +30,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
   Future<void> fetchData() async {
     try {
       final response = await http.get(Uri.parse(
-          "http://192.168.1.53/database/data-response/data_response.php"));
+          "http://192.168.100.46/database/data-response/data_response.php"));
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         setState(() {
@@ -40,6 +47,23 @@ class _DataTableWidgetState extends State<DataTableWidget> {
         isLoading = false;
       });
     }
+  }
+
+  List<Map<String, dynamic>> getFilteredData() {
+    List<Map<String, dynamic>> filtered = data.where((row) {
+      bool matchesDivision = widget.selectedDivision == null ||
+          widget.selectedDivision == "Show All" ||
+          row["division"]?.toString().trim() == widget.selectedDivision?.trim();
+
+      bool matchesCollege = widget.selectedCollege == null ||
+          widget.selectedCollege == "Show All" ||
+          (row["officeUnit"] != null &&
+              row["officeUnit"].toString().trim() ==
+                  widget.selectedCollege?.trim());
+
+      return matchesDivision && matchesCollege;
+    }).toList();
+    return filtered;
   }
 
   Color getAnalysisColor(String value) {
@@ -61,7 +85,9 @@ class _DataTableWidgetState extends State<DataTableWidget> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (columns.isEmpty || data.isEmpty) {
+    List<Map<String, dynamic>> filteredData = getFilteredData();
+
+    if (columns.isEmpty || filteredData.isEmpty) {
       return const Center(
         child: Text("No data available"),
       );
@@ -105,7 +131,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
                   ),
                 );
               }).toList(),
-              rows: List<DataRow>.generate(data.length, (index) {
+              rows: List<DataRow>.generate(filteredData.length, (index) {
                 return DataRow(
                   color: WidgetStateProperty.resolveWith<Color?>(
                     (states) => index.isEven
@@ -120,13 +146,13 @@ class _DataTableWidgetState extends State<DataTableWidget> {
                           width: 100,
                           decoration: BoxDecoration(
                             color: getAnalysisColor(
-                                data[index][col]?.toString() ?? ""),
+                                filteredData[index][col]?.toString() ?? ""),
                             borderRadius: BorderRadius.circular(30),
                             border: Border.all(color: Colors.black12),
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                            data[index][col]?.toString() ?? "",
+                            filteredData[index][col]?.toString() ?? "",
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -137,7 +163,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
                     } else {
                       return DataCell(
                         Text(
-                          data[index][col]?.toString() ?? "",
+                          filteredData[index][col]?.toString() ?? "",
                         ),
                       );
                     }

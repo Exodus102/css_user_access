@@ -3,7 +3,7 @@ import 'dart:convert';
 
 Future<bool> checkEmailRegistered(String email) async {
   final response = await http.post(
-    Uri.parse('http://192.168.1.53/database/login/login_email.php'),
+    Uri.parse('http://192.168.100.46/database/login/login_email.php'),
     body: {
       'email': email,
     },

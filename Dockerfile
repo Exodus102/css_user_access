@@ -1,0 +1,14 @@
+# Use an official PHP image with Apache
+FROM php:8.2-apache
+
+# Enable mod_rewrite
+RUN a2enmod rewrite
+
+# Copy all files into the container
+COPY . /var/www/html/
+
+# Set correct working directory
+WORKDIR /var/www/html/
+
+# Open port 80
+EXPOSE 80
